@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Rewards Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a4a 0%, #2d4a6a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .promo-banner {
+            background: linear-gradient(145deg, #0f1a2f 0%, #1e2c45 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 1200px;
+            width: 100%;
+            border: 1px solid #2a3d5f;
+        }
+
+        .banner-header {
+            background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+            padding: 25px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .banner-title {
+            font-size: 2.8em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .banner-subtitle {
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+        }
+
+        .banner-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 500px;
+        }
+
+        .left-panel {
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .features-list li {
+            color: #e0e0e0;
+            margin: 15px 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: #00ff88;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 1.2em;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #1a2a4a;
+            border: none;
+            padding: 18px 35px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(45deg, #00ff99, #00dd77);
+        }
+
+        .right-panel {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        .rewards-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .rewards-table th {
+            background: linear-gradient(135deg, #0072ff, #0052cc);
+            color: white;
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .rewards-table td {
+            padding: 16px 15px;
+            text-align: center;
+            color: #e0e0e0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .rewards-table tr:hover td {
+            background: rgba(0, 114, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .deposit-amount {
+            color: #00ccff;
+            font-weight: 600;
+        }
+
+        .trading-volume {
+            color: #ffcc00;
+            font-weight: 600;
+        }
+
+        .credit-rewards {
+            color: #00ff88;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .top-tier {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border-left: 4px solid #ffd700;
+        }
+
+        .top-tier .credit-rewards {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .important-notes {
+            padding: 30px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notes-title {
+            color: #00ccff;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .notes-content {
+            color: #e0e0e0;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .notes-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #0072ff;
+        }
+
+        .notes-section h4 {
+            color: #ffcc00;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .notes-section p {
+            margin-bottom: 8px;
+        }
+
+        .notes-section ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .notes-section li {
+            margin-bottom: 5px;
+        }
+
+        .campaign-period {
+            background: rgba(0, 114, 255, 0.1);
+            border-left: 4px solid #00ff88;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .campaign-period strong {
+            color: #00ff88;
+            font-size: 1.1em;
+        }
+
+        .banner-footer {
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .terms {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .banner-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .banner-title {
+                font-size: 2.2em;
+            }
+            
+            .right-panel {
+                max-height: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .banner-title {
+                font-size: 1.8em;
+            }
+            
+            .banner-subtitle {
+                font-size: 1.1em;
+            }
+            
+            .left-panel, .right-panel, .important-notes {
+                padding: 25px;
+            }
+            
+            .rewards-table th,
+            .rewards-table td {
+                padding: 12px 8px;
+                font-size: 0.9em;
+            }
+            
+            .notes-section {
+                padding: 12px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .right-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .right-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .right-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="promo-banner">
+        <div class="banner-header">
+            <h1 class="banner-title">UNLOCK ELITE REWARDS</h1>
+            <p class="banner-subtitle">Deposit. Trade. Earn Massive Credits.</p>
+        </div>
+        
+        <div class="banner-content">
+            <div class="left-panel">
+                <ul class="features-list">
+                    <li>Get rewarded for your trading activity</li>
+                    <li>Credits paid directly to your account</li>
+                    <li>Climb the tiers for greater prizes</li>
+                    <li>Limited time offer - Join now!</li>
+                </ul>
+                
+                <a href="https://www.vtmarketsid.com/trade-now/" class="cta-button" target="_blank">CLAIM YOUR PRIZE NOW</a>
+            </div>
+            
+            <div class="right-panel">
+                <table class="rewards-table">
+                    <thead>
+                        <tr>
+                            <th>Deposit Amount (USD)</th>
+                            <th>Trading Volume (lots)</th>
+                            <th>Credit Rewards (USD)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="deposit-amount">$500</td><td class="trading-volume">50</td><td class="credit-rewards">$37</td></tr>
+                        <tr><td class="deposit-amount">$500</td><td class="trading-volume">100</td><td class="credit-rewards">$73</td></tr>
+                        <tr><td class="deposit-amount">$1,000</td><td class="trading-volume">150</td><td class="credit-rewards">$114</td></tr>
+                        <tr><td class="deposit-amount">$1,500</td><td class="trading-volume">299</td><td class="credit-rewards">$205</td></tr>
+                        <tr><td class="deposit-amount">$3,000</td><td class="trading-volume">449</td><td class="credit-rewards">$341</td></tr>
+                        <tr><td class="deposit-amount">$3,500</td><td class="trading-volume">500</td><td class="credit-rewards">$343</td></tr>
+                        <tr><td class="deposit-amount">$4,500</td><td class="trading-volume">550</td><td class="credit-rewards">$455</td></tr>
+                        <tr><td class="deposit-amount">$5,000</td><td class="trading-volume">570</td><td class="credit-rewards">$457</td></tr>
+                        <tr><td class="deposit-amount">$6,000</td><td class="trading-volume">600</td><td class="credit-rewards">$501</td></tr>
+                        <tr><td class="deposit-amount">$8,500</td><td class="trading-volume">900</td><td class="credit-rewards">$571</td></tr>
+                        <tr><td class="deposit-amount">$9,500</td><td class="trading-volume">1,300</td><td class="credit-rewards">$1,029</td></tr>
+                        <tr><td class="deposit-amount">$10,000</td><td class="trading-volume">1,500</td><td class="credit-rewards">$1,118</td></tr>
+                        <tr><td class="deposit-amount">$14,000</td><td class="trading-volume">2,000</td><td class="credit-rewards">$1,301</td></tr>
+                        <tr><td class="deposit-amount">$15,000</td><td class="trading-volume">2,500</td><td class="credit-rewards">$1,415</td></tr>
+                        <tr><td class="deposit-amount">$25,000</td><td class="trading-volume">3,000</td><td class="credit-rewards">$2,057</td></tr>
+                        <tr><td class="deposit-amount">$27,000</td><td class="trading-volume">4,000</td><td class="credit-rewards">$3,086</td></tr>
+                        <tr><td class="deposit-amount">$30,000</td><td class="trading-volume">4,500</td><td class="credit-rewards">$3,495</td></tr>
+                        <tr><td class="deposit-amount">$48,000</td><td class="trading-volume">6,500</td><td class="credit-rewards">$5,143</td></tr>
+                        <tr><td class="deposit-amount">$50,000</td><td class="trading-volume">9,500</td><td class="credit-rewards">$7,481</td></tr>
+                        <tr><td class="deposit-amount">$100,000</td><td class="trading-volume">17,000</td><td class="credit-rewards">$12,549</td></tr>
+                        <tr><td class="deposit-amount">$150,000</td><td class="trading-volume">50,000</td><td class="credit-rewards">$36,549</td></tr>
+                        <tr><td class="deposit-amount">$300,000</td><td class="trading-volume">70,000</td><td class="credit-rewards">$53,029</td></tr>
+                        <tr><td class="deposit-amount">$400,000</td><td class="trading-volume">90,000</td><td class="credit-rewards">$68,571</td></tr>
+                        <tr class="top-tier"><td class="deposit-amount">$500,000</td><td class="trading-volume">200,000</td><td class="credit-rewards">$153,577</td></tr>
+                        <tr class="top-tier"><td class="deposit-amount">$700,000</td><td class="trading-volume">400,000</td><td class="credit-rewards">$280,914</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Important Notes Section -->
+        <div class="important-notes">
+            <h3 class="notes-title">IMPORTANT TERMS & CONDITIONS</h3>
+            
+            <div class="notes-section">
+                <h4>Eligible Accounts</h4>
+                <p>This offer is eligible on valid STP, VIP, ECN, Cent, Swap-free, and Copy Trade accounts.</p>
+                <p><strong>MAM and PAMM accounts are ineligible</strong> for this offer.</p>
+            </div>
+
+            <div class="notes-section">
+                <h4>Offer Combinations & Participation</h4>
+                <p>This offer can be used in conjunction with other offers from VT Markets.</p>
+                <p>Clients may participate in this campaign and register with <strong>one trading account per prize</strong>.</p>
+            </div>
+
+            <div class="notes-section">
+                <h4>Deposit Requirements</h4>
+                <p><strong>Internal transfers</strong> between trading accounts and rebate accounts will <strong>not be counted</strong> as deposit amount for this campaign.</p>
+            </div>
+
+            <div class="notes-section">
+                <h4>Trading Volume Calculation</h4>
+                <p>Only each closed trade of the following instruments will be accumulated and counted from all trading accounts towards the trading volume requirement:</p>
+                <ul>
+                    <li>FX, Metal (XPDAUD)</li>
+                    <li>Gold (XAUUSD, XAUAUD)</li>
+                    <li>Silver (XAGUSD, XAGAUD)</li>
+                    <li>Crude Oil (CL-OIL, USOUSD, UKOUSD)</li>
+                    <li>Bitcoin (BTCUSD)</li>
+                </ul>
+                <p><strong>Only trades held for more than 2 minutes</strong> are counted towards the trading volume.</p>
+            </div>
+
+            <div class="notes-section">
+                <h4>Registration Process</h4>
+                <p>Clients can use 1 trading account to register:</p>
+                <ul>
+                    <li>On the promotion page on the VT Markets website, OR</li>
+                    <li>Contact your account manager to register</li>
+                </ul>
+            </div>
+
+            <div class="campaign-period">
+                <p><strong>Campaign Period:</strong> 1 February 2025 to 31 December 2025</p>
+                <p>VT Markets will calculate the accumulative gross deposit amount and trading volume only within the campaign period.</p>
+            </div>
+        </div>
+        
+        <div class="banner-footer">
+            <p class="terms">
+                Terms and Conditions Apply. Credits are subject to trading volume and deposit requirements. 
+                Offer valid for a limited time. See full terms on website. Professional clients may lose more than their initial investment.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctaButton = document.querySelector('.cta-button');
+            const tableRows = document.querySelectorAll('.rewards-table tr');
+            
+            // CTA button animation
+            ctaButton.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+            
+            // Add staggered animation for table rows
+            tableRows.forEach((row, index) => {
+                row.style.opacity = '0';
+                row.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    row.style.transition = 'all 0.5s ease';
+                    row.style.opacity = '1';
+                    row.style.transform = 'translateY(0)';
+                }, index * 50);
+            });
+        });
+    </script>
+</body>
+</html>
